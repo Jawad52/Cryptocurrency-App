@@ -1,0 +1,38 @@
+[
+  {
+    "id": "btc-bitcoin",
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "rank": 1,
+    "is_new": false,
+    "is_active": true,
+    "type": "coin"
+  },
+  {
+    "id": "algo-algorand",
+    "name": "Algorand",
+    "symbol": "ALGO",
+    "rank": 32,
+    "is_new": false,
+    "is_active": true,
+    "type": "coin"
+  },
+  {
+    "id": "aave-new",
+    "name": "Aave",
+    "symbol": "AAVE",
+    "rank": 60,
+    "is_new": false,
+    "is_active": true,
+    "type": "token"
+  },
+  {
+    "id": "bttc-bittorrent-chain",
+    "name": "BitTorrent Chain",
+    "symbol": "BTTC",
+    "rank": 61,
+    "is_new": false,
+    "is_active": true,
+    "type": "token"
+  }
+]
