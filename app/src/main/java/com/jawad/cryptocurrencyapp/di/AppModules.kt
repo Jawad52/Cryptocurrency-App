@@ -3,6 +3,7 @@ package com.jawad.cryptocurrencyapp.di
 import com.jawad.cryptocurrencyapp.data.remote.service.ApiService
 import com.jawad.cryptocurrencyapp.data.repository.CoinRepositoryImpl
 import com.jawad.cryptocurrencyapp.domain.repository.CoinRepository
+import com.jawad.cryptocurrencyapp.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +38,7 @@ object AppModules {
 
     private fun createRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory) =
         Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()
