@@ -16,7 +16,7 @@ class CoinsUseCase(
     private val coinsRepository: CoinRepository
 ) {
 
-    fun getCoinList(): Flow<Resource<List<Coin>>> = flow {
+    operator fun invoke(): Flow<Resource<List<Coin>>> = flow {
         emit(Resource.Loading())
         val response = coinsRepository.getCoinList().map { it.toCoin() }
         if (response.isNotEmpty()) {

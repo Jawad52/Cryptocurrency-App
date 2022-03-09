@@ -35,7 +35,7 @@ class CoinsUseCaseTest {
 
     @Test
     fun `Should give error message when request for coin list`() = runTest(coroutineDispatcher) {
-        coinsUseCase.getCoinList().test {
+        coinsUseCase().test {
             awaitItem()
             val result = awaitItem()
             assertThat(result).isNotNull()
