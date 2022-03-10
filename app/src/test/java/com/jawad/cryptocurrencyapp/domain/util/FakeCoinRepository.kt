@@ -3,6 +3,7 @@ package com.jawad.cryptocurrencyapp.domain.util
 import com.jawad.cryptocurrencyapp.data.remote.dto.CoinDetailDto
 import com.jawad.cryptocurrencyapp.data.remote.dto.CoinDto
 import com.jawad.cryptocurrencyapp.domain.repository.CoinRepository
+import com.jawad.cryptocurrencyapp.util.Constant
 
 class FakeCoinRepository : CoinRepository {
     override suspend fun getCoinList(): List<CoinDto> {

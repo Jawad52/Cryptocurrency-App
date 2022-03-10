@@ -4,24 +4,19 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.jawad.cryptocurrencyapp.data.remote.dto.CoinDto
 import com.jawad.cryptocurrencyapp.domain.model.Coin
-import com.jawad.cryptocurrencyapp.domain.util.Constant
+import com.jawad.cryptocurrencyapp.util.Constant
 import com.jawad.cryptocurrencyapp.domain.util.FakeCoinRepository
 import com.jawad.cryptocurrencyapp.domain.util.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
 import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import java.io.IOException
-import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
@@ -55,7 +50,7 @@ class CoinsUseCaseTest {
     fun `Should success when request for coin list with Resource_Success instance`() =
         runTest(coroutineDispatcher) {
             val repository = mock<FakeCoinRepository>()
-            whenever(repository.getCoinList()) doReturn Constant.coins
+            whenever(repository.getCoinList()) doReturn Constant.coinsDto
             val useCase = CoinsUseCase(coroutineDispatcher, repository)
             useCase().test {
                 awaitItem()
@@ -71,7 +66,7 @@ class CoinsUseCaseTest {
     fun `Verify that CoinDto instance is not returned when get coin list method is called`() =
         runTest(coroutineDispatcher) {
             val repository = mock<FakeCoinRepository>()
-            whenever(repository.getCoinList()) doReturn Constant.coins
+            whenever(repository.getCoinList()) doReturn Constant.coinsDto
             val useCase = CoinsUseCase(coroutineDispatcher, repository)
             useCase().test {
                 awaitItem()
@@ -86,7 +81,7 @@ class CoinsUseCaseTest {
     fun `Verify that Coin instance is returned when get coin list method is called`() =
         runTest(coroutineDispatcher) {
             val repository = mock<FakeCoinRepository>()
-            whenever(repository.getCoinList()) doReturn Constant.coins
+            whenever(repository.getCoinList()) doReturn Constant.coinsDto
             val useCase = CoinsUseCase(coroutineDispatcher, repository)
             useCase().test {
                 awaitItem()
@@ -101,7 +96,7 @@ class CoinsUseCaseTest {
     fun `Verify that first rank of coin list must Bit coin`() =
         runTest(coroutineDispatcher) {
             val repository = mock<FakeCoinRepository>()
-            whenever(repository.getCoinList()) doReturn Constant.coins
+            whenever(repository.getCoinList()) doReturn Constant.coinsDto
             val useCase = CoinsUseCase(coroutineDispatcher, repository)
             useCase().test {
                 awaitItem()

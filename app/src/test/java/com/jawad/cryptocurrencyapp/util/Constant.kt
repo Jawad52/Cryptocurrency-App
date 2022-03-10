@@ -1,4 +1,4 @@
-package com.jawad.cryptocurrencyapp.domain.util
+package com.jawad.cryptocurrencyapp.util
 
 import com.google.gson.Gson
 import com.jawad.cryptocurrencyapp.data.remote.dto.CoinDetailDto
@@ -19,6 +19,30 @@ class Constant {
         )
 
         val coins = listOf(
+            Coin(
+                id = "btc-bitcoin",
+                is_active = true,
+                name = "Bitcoin",
+                rank = 1,
+                symbol = "BTC",
+            ),
+            Coin(
+                id = "algo-algorand",
+                is_active = true,
+                name = "Algorand",
+                rank = 32,
+                symbol = "ALGO",
+            ),
+            Coin(
+                id = "aave-new",
+                is_active = true,
+                name = "Aave",
+                rank = 60,
+                symbol = "AAVE",
+            )
+        )
+
+        val coinsDto = listOf(
             CoinDto(
                 id = "btc-bitcoin",
                 is_active = true,

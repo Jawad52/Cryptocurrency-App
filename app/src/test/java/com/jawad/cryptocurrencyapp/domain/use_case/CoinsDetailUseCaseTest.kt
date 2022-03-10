@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.jawad.cryptocurrencyapp.data.remote.dto.CoinDetailDto
 import com.jawad.cryptocurrencyapp.domain.model.CoinDetail
-import com.jawad.cryptocurrencyapp.domain.util.Constant
+import com.jawad.cryptocurrencyapp.util.Constant
 import com.jawad.cryptocurrencyapp.domain.util.FakeCoinRepository
 import com.jawad.cryptocurrencyapp.domain.util.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
+import javax.inject.Inject
 
-class CoinsUseCase(
+class CoinsUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
     private val coinsRepository: CoinRepository
 ) {
