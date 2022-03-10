@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,6 +29,10 @@ object AppModules {
     @Singleton
     fun provideCoinRepository(apiService: ApiService): CoinRepository =
         CoinRepositoryImpl(apiService)
+
+    @Provides
+    @Singleton
+    fun provideCoroutineDispatcher() = Dispatchers.IO
 
     private fun <T> provideServices(
         client: OkHttpClient,
