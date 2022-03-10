@@ -22,7 +22,7 @@ class CoinsUseCase(
         if (response.isNotEmpty()) {
             emit(Resource.Success(response))
         } else {
-            emit(Resource.Error("No data found"))
+            emit(Resource.Error("No data available"))
         }
     }.catch {
         when (it) {
