@@ -30,11 +30,7 @@ class CoinsUseCase(
                 emit(Resource.Error("Unable to reach server, check your internet"))
             }
             else -> {
-                it.localizedMessage?.let { message ->
-                    emit(Resource.Error(message))
-                } ?: run {
-                    emit(Resource.Error("Sorry something went wrong, please try again"))
-                }
+                emit(Resource.Error(it.localizedMessage))
             }
         }
     }.flowOn(dispatcher)
