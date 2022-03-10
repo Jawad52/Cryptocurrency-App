@@ -16,10 +16,14 @@ class CoinsDetailUseCase(
     private val coinsRepository: CoinRepository
 ) {
 
-    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> = flow<Resource<CoinDetail>> {
-        emit(Resource.Loading())
-        val response = coinsRepository.getCoinDetails(coinId).toCoinDetail()
-        emit(Resource.Success(response))
+    operator fun invoke(coinId: String?): Flow<Resource<CoinDetail>> = flow<Resource<CoinDetail>> {
+        coinId?.let {
+            emit(Resource.Loading())
+            val response = coinsRepository.getCoinDetails(coinId).toCoinDetail()
+            emit(Resource.Success(response))
+        } ?: run {
+            emit(Resource.Error("Coin id can't be null"))
+        }
     }.catch {
         when (it) {
             is IOException -> {
