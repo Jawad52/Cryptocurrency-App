@@ -28,7 +28,7 @@ data class CoinDetailDto(
     val whitepaper: Whitepaper
 )
 
-fun CoinDetailDto.ToCoinDetail(): CoinDetail = CoinDetail(
+fun CoinDetailDto.toCoinDetail(): CoinDetail = CoinDetail(
     coinId = id,
     name = name,
     description = description,
