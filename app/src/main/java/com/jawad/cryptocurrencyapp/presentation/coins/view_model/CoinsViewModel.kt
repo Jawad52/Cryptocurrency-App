@@ -11,11 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase) : BaseViewModel() {
 
-    private var _progressStatus = MutableSharedFlow<Boolean>()
-    val getProgressStatus = _progressStatus.asSharedFlow()
-
-    private var _message = MutableSharedFlow<String>()
-    val getMessage = _message.asSharedFlow()
+    private var _coinListState = MutableStateFlow(CoinListState())
+    val getCoinListState = _coinListState.asSharedFlow()
 
     init {
         getCoins()
@@ -25,14 +22,17 @@ class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase)
         coinsUseCase().onEach {
             when (it) {
                 is Resource.Error -> {
-                    _progressStatus.emit(false)
-                    _message.emit(it.message!!)
+                    _coinListState.value = CoinListState(
+                        isLoading = false,
+                        error = it.message ?: "An unexpected error occurred"
+                    )
                 }
-                is Resource.Loading ->
-                    _progressStatus.emit(true)
-
+                is Resource.Loading -> _coinListState.value = CoinListState(isLoading = true)
                 is Resource.Success -> {
-                    _progressStatus.emit(false)
+                    _coinListState.value = CoinListState(
+                        isLoading = false,
+                        coins = it.data ?: emptyList()
+                    )
                 }
             }
         }.launchIn(viewModelScope)
