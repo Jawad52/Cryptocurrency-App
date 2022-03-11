@@ -46,34 +46,101 @@ class CoinsViewModelTest {
     }
 
     @Test
-    fun `Verify the progress status when view model is initiated`() =
+    fun `Verify that progress status is false when view model is initiated`() =
         runTest(testCoroutineDispatcher) {
-            val coinsUseCase = mock<CoinsUseCase> {
-                on { invoke() } doReturn flow {
-                    emit(Resource.Loading())
-                    emit(Resource.Success(Constant.coins))
-                }
-            }
+            val coinsUseCase = mock<CoinsUseCase>()
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getProgressStatus.test {
-                assertThat(awaitItem()).isEqualTo(true)
-                assertThat(awaitItem()).isEqualTo(false)
+            coinsViewModel.getCoinListState.test {
+                assertThat(awaitItem().isLoading).isEqualTo(false)
             }
         }
 
     @Test
-    fun `Should give network error message`() = runTest(testCoroutineDispatcher) {
-        val coinsUseCaseForError = mock<CoinsUseCase> {
-            on { invoke() } doReturn flow {
-                emit(Resource.Error(networkErrorMessage))
+    fun `Verify that error message is empty when view model is initiated`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCase = mock<CoinsUseCase>()
+            coinsViewModel = CoinsViewModel(coinsUseCase)
+            coinsViewModel.getCoinListState.test {
+                assertThat(awaitItem().error).isEmpty()
             }
         }
-        val coinsViewModel = CoinsViewModel(coinsUseCaseForError)
-        coinsViewModel.getMessage.test {
-            val result = awaitItem()
-            assertThat(result).isEqualTo(networkErrorMessage)
+
+    @Test
+    fun `Verify that coin has empty list when view model is initiated`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCase = mock<CoinsUseCase>()
+            coinsViewModel = CoinsViewModel(coinsUseCase)
+            coinsViewModel.getCoinListState.test {
+                assertThat(awaitItem().coins).isEmpty()
+            }
         }
-    }
+
+
+    @Test
+    fun `Verify the progress status for the error response`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCase = mock<CoinsUseCase> {
+                on { invoke() } doReturn flow {
+                    emit(Resource.Loading())
+                    emit(Resource.Error(""))
+                }
+            }
+            coinsViewModel = CoinsViewModel(coinsUseCase)
+            coinsViewModel.getCoinListState.test {
+                assertThat(awaitItem().isLoading).isEqualTo(false)
+                assertThat(awaitItem().isLoading).isEqualTo(true)
+                assertThat(awaitItem().isLoading).isEqualTo(false)
+            }
+        }
+
+    @Test
+    fun `Verify the progress status for the success response`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCase = mock<CoinsUseCase> {
+                on { invoke() } doReturn flow {
+                    emit(Resource.Loading())
+                    emit(Resource.Success(emptyList()))
+                }
+            }
+            coinsViewModel = CoinsViewModel(coinsUseCase)
+            coinsViewModel.getCoinListState.test {
+                assertThat(awaitItem().isLoading).isEqualTo(false)
+                assertThat(awaitItem().isLoading).isEqualTo(true)
+                assertThat(awaitItem().isLoading).isEqualTo(false)
+            }
+        }
+
+    @Test
+    fun `Should fail and show network error message when get coin list is called`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCaseForError = mock<CoinsUseCase> {
+                on { invoke() } doReturn flow {
+                    emit(Resource.Error(networkErrorMessage))
+                }
+            }
+            val coinsViewModel = CoinsViewModel(coinsUseCaseForError)
+            coinsViewModel.getCoinListState.test {
+                awaitItem()
+                val result = awaitItem()
+                assertThat(result.error).isEqualTo(networkErrorMessage)
+            }
+        }
+
+    @Test
+    fun `Should success when get coin list is called with valid coin list`() =
+        runTest(testCoroutineDispatcher) {
+            val coinsUseCaseForError = mock<CoinsUseCase> {
+                on { invoke() } doReturn flow {
+                    emit(Resource.Success(Constant.coins))
+                }
+            }
+            val coinsViewModel = CoinsViewModel(coinsUseCaseForError)
+            coinsViewModel.getCoinListState.test {
+                awaitItem()
+                val result = awaitItem()
+                assertThat(result.coins).isNotEmpty()
+            }
+        }
 
     @After
     fun tearDown() {
