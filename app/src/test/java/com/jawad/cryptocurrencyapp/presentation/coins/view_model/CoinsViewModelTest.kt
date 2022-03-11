@@ -36,9 +36,7 @@ class CoinsViewModelTest {
     private val testCoroutineDispatcher = StandardTestDispatcher()
 
     private val networkErrorMessage = "No internet available"
-
-    lateinit var coinsViewModel: CoinsViewModel
-
+    private lateinit var coinsViewModel: CoinsViewModel
 
     @Before
     fun setUp() {
@@ -50,8 +48,9 @@ class CoinsViewModelTest {
         runTest(testCoroutineDispatcher) {
             val coinsUseCase = mock<CoinsUseCase>()
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getCoinListState.test {
-                assertThat(awaitItem().isLoading).isEqualTo(false)
+
+            coinsViewModel.getProgressStatus.test {
+                assertThat(awaitItem()).isEqualTo(false)
             }
         }
 
@@ -60,8 +59,8 @@ class CoinsViewModelTest {
         runTest(testCoroutineDispatcher) {
             val coinsUseCase = mock<CoinsUseCase>()
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getCoinListState.test {
-                assertThat(awaitItem().error).isEmpty()
+            coinsViewModel.getMessage.test {
+                assertThat(awaitItem()).isEmpty()
             }
         }
 
@@ -70,8 +69,8 @@ class CoinsViewModelTest {
         runTest(testCoroutineDispatcher) {
             val coinsUseCase = mock<CoinsUseCase>()
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getCoinListState.test {
-                assertThat(awaitItem().coins).isEmpty()
+            coinsViewModel.getCoins.test {
+                assertThat(awaitItem()).isEmpty()
             }
         }
 
@@ -86,10 +85,10 @@ class CoinsViewModelTest {
                 }
             }
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getCoinListState.test {
-                assertThat(awaitItem().isLoading).isEqualTo(false)
-                assertThat(awaitItem().isLoading).isEqualTo(true)
-                assertThat(awaitItem().isLoading).isEqualTo(false)
+            coinsViewModel.getProgressStatus.test {
+                assertThat(awaitItem()).isEqualTo(false)
+                assertThat(awaitItem()).isEqualTo(true)
+                assertThat(awaitItem()).isEqualTo(false)
             }
         }
 
@@ -103,10 +102,10 @@ class CoinsViewModelTest {
                 }
             }
             coinsViewModel = CoinsViewModel(coinsUseCase)
-            coinsViewModel.getCoinListState.test {
-                assertThat(awaitItem().isLoading).isEqualTo(false)
-                assertThat(awaitItem().isLoading).isEqualTo(true)
-                assertThat(awaitItem().isLoading).isEqualTo(false)
+            coinsViewModel.getProgressStatus.test {
+                assertThat(awaitItem()).isEqualTo(false)
+                assertThat(awaitItem()).isEqualTo(true)
+                assertThat(awaitItem()).isEqualTo(false)
             }
         }
 
@@ -119,10 +118,10 @@ class CoinsViewModelTest {
                 }
             }
             val coinsViewModel = CoinsViewModel(coinsUseCaseForError)
-            coinsViewModel.getCoinListState.test {
+            coinsViewModel.getMessage.test {
                 awaitItem()
                 val result = awaitItem()
-                assertThat(result.error).isEqualTo(networkErrorMessage)
+                assertThat(result).isEqualTo(networkErrorMessage)
             }
         }
 
@@ -135,10 +134,10 @@ class CoinsViewModelTest {
                 }
             }
             val coinsViewModel = CoinsViewModel(coinsUseCaseForError)
-            coinsViewModel.getCoinListState.test {
+            coinsViewModel.getCoins.test {
                 awaitItem()
                 val result = awaitItem()
-                assertThat(result.coins).isNotEmpty()
+                assertThat(result).isNotEmpty()
             }
         }
 
