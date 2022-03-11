@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <import type="com.jawad.cryptocurrencyapp.R" />
+
+        <variable
+            name="itemViewModel"
+            type="com.jawad.cryptocurrencyapp.presentation.coins.adapter.CoinListingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:onClick="@{() -> itemViewModel.onClick()}"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvCoinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{itemViewModel.coinText}"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvIsCoinActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{itemViewModel.active? @string/active : @string/in_active}"
+            android:textColor="@{itemViewModel.active? @color/green : @color/red}"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

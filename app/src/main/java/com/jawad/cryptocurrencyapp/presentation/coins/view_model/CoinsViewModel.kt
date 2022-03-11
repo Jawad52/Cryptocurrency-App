@@ -5,12 +5,18 @@ import com.jawad.cryptocurrencyapp.domain.model.Coin
 import com.jawad.cryptocurrencyapp.domain.use_case.CoinsUseCase
 import com.jawad.cryptocurrencyapp.domain.util.Resource
 import com.jawad.cryptocurrencyapp.presentation.base.BaseViewModel
+import com.jawad.cryptocurrencyapp.presentation.coins.adapter.CoinListingViewModel
+import com.jawad.cryptocurrencyapp.presentation.coins.adapter.ItemViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase) : BaseViewModel() {
+
+    private var _navigateToCoinDetail = MutableSharedFlow<String>()
+    val navigateToCoinDetail = _navigateToCoinDetail.asSharedFlow()
 
     private var _progressStatus = MutableStateFlow(false)
     val getProgressStatus = _progressStatus.asStateFlow()
@@ -20,6 +26,10 @@ class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase)
 
     private var _coins = MutableStateFlow<List<Coin>>(emptyList())
     val getCoins = _coins.asStateFlow()
+
+    private val _coinItemViewData = MutableStateFlow<List<ItemViewModel>>(emptyList())
+    val getCoinItemViewData = _coinItemViewData.asStateFlow()
+
 
     init {
         getCoins()
@@ -38,8 +48,31 @@ class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase)
                 is Resource.Success -> {
                     _progressStatus.emit(false)
                     _coins.emit(it.data ?: emptyList())
+                    _coinItemViewData.emit(createViewData(it.data ?: emptyList()))
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun createViewData(coinList: List<Coin>): List<ItemViewModel> {
+        val viewData = mutableListOf<ItemViewModel>()
+        coinList.forEach { coin ->
+            val item =
+                CoinListingViewModel(
+                    "${coin.rank}. ${coin.name} (${coin.symbol})",
+                    coin.is_active
+                ) {
+                    viewModelScope.launch {
+                        _navigateToCoinDetail.emit(coin.id)
+                    }
+                }
+            viewData.add(item)
+        }
+        return viewData
+    }
+
+
+    companion object {
+        const val LISTING_ITEM = 1
     }
 }
