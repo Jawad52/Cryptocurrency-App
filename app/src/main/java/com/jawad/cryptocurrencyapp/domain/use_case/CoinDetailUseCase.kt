@@ -10,17 +10,21 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
+import javax.inject.Inject
 
-class CoinsDetailUseCase(
+class CoinDetailUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
     private val coinsRepository: CoinRepository
 ) {
 
     operator fun invoke(coinId: String?): Flow<Resource<CoinDetail>> = flow<Resource<CoinDetail>> {
+        emit(Resource.Loading())
         coinId?.let {
-            emit(Resource.Loading())
-            val response = coinsRepository.getCoinDetails(coinId).toCoinDetail()
-            emit(Resource.Success(response))
+            if (coinId.isNotEmpty()) {
+                val response = coinsRepository.getCoinDetails(coinId).toCoinDetail()
+                emit(Resource.Success(response))
+            } else
+                emit(Resource.Error("Coin id can't be empty"))
         } ?: run {
             emit(Resource.Error("Coin id can't be null"))
         }

@@ -40,7 +40,7 @@ class CoinsViewModel @Inject constructor(private val coinsUseCase: CoinsUseCase)
             when (it) {
                 is Resource.Error -> {
                     _progressStatus.emit(false)
-                    _message.emit(it.message!!)
+                    _message.emit(it.message ?: "An error occurred please try again later.")
                 }
                 is Resource.Loading ->
                     _progressStatus.emit(true)

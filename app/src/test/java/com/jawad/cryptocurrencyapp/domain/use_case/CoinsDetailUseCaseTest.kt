@@ -21,19 +21,19 @@ class CoinsDetailUseCaseTest {
     private val coroutineDispatcher = StandardTestDispatcher()
 
     private val coinRepository = FakeCoinRepository()
-    lateinit var coinsDetailUseCase: CoinsDetailUseCase
+    lateinit var coinDetailUseCase: CoinDetailUseCase
     private val errorMessage = "Coin id can't be null"
     private val coinId = "btc-bitcoin"
 
     @Before
     fun setUp() {
-        coinsDetailUseCase = CoinsDetailUseCase(coroutineDispatcher, coinRepository)
+        coinDetailUseCase = CoinDetailUseCase(coroutineDispatcher, coinRepository)
     }
 
     @Test
     fun `Should fail when null coin id is passed return appropriate error message`() =
         runTest(coroutineDispatcher) {
-            coinsDetailUseCase(null).test {
+            coinDetailUseCase(null).test {
                 val result = awaitItem()
                 assertThat(result).isNotNull()
                 assertThat(result).isInstanceOf(Resource.Error::class.java)
@@ -45,7 +45,7 @@ class CoinsDetailUseCaseTest {
     @Test
     fun `Should fail when coin id is passed return different coin details instance`() =
         runTest(coroutineDispatcher) {
-            coinsDetailUseCase(coinId).test {
+            coinDetailUseCase(coinId).test {
                 awaitItem()
                 val result = awaitItem()
                 assertThat(result).isNotNull()
@@ -58,7 +58,7 @@ class CoinsDetailUseCaseTest {
     @Test
     fun `Should success when coin id is passed return proper coin details instance`() =
         runTest(coroutineDispatcher) {
-            coinsDetailUseCase(coinId).test {
+            coinDetailUseCase(coinId).test {
                 awaitItem()
                 val result = awaitItem()
                 assertThat(result).isNotNull()
@@ -71,7 +71,7 @@ class CoinsDetailUseCaseTest {
     @Test
     fun `Should success when the coin id passed and returns same coin id details`() =
         runTest(coroutineDispatcher) {
-            coinsDetailUseCase(coinId).test {
+            coinDetailUseCase(coinId).test {
                 awaitItem()
                 val result = awaitItem()
                 assertThat(result).isNotNull()
