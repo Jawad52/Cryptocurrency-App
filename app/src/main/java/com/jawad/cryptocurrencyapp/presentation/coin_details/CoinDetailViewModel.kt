@@ -2,6 +2,7 @@ package com.jawad.cryptocurrencyapp.presentation.coin_details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.jawad.cryptocurrencyapp.data.remote.dto.Team
 import com.jawad.cryptocurrencyapp.domain.model.CoinDetail
 import com.jawad.cryptocurrencyapp.domain.use_case.CoinDetailUseCase
 import com.jawad.cryptocurrencyapp.domain.util.Resource
@@ -29,6 +30,9 @@ class CoinDetailViewModel @Inject constructor(
     private var _coinDetail = MutableStateFlow<CoinDetail?>(null)
     val getCoinDetail = _coinDetail.asStateFlow()
 
+    private var _teams = MutableStateFlow<List<Team>?>(null)
+    val getTeams = _teams.asStateFlow()
+
     init {
         getCoinDetails()
     }
@@ -45,7 +49,10 @@ class CoinDetailViewModel @Inject constructor(
                     _progressStatus.emit(true)
                 is Resource.Success -> {
                     _progressStatus.emit(false)
-                    _coinDetail.emit(it.data)
+                    it.data?.let { coinDetail ->
+                        _coinDetail.emit(coinDetail)
+                        _teams.emit(coinDetail.team)
+                    }
                 }
             }
         }.launchIn(viewModelScope)

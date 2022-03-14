@@ -5,5 +5,6 @@
     <string name="active">active</string>
     <string name="in_active">in-active</string>
     <string name="title">%s. %s (%s) </string>
+    <string name="tags">Tags</string>
 
 </resources>
