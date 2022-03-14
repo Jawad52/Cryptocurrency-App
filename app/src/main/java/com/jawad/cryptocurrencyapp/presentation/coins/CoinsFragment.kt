@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.jawad.cryptocurrencyapp.databinding.FragmentCoinsBinding
 import com.jawad.cryptocurrencyapp.presentation.base.BaseFragment
 import com.jawad.cryptocurrencyapp.presentation.coins.view_model.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class CoinsFragment : BaseFragment() {
@@ -29,9 +28,10 @@ class CoinsFragment : BaseFragment() {
             coinsViewModelData = coinsViewModel
             lifecycleOwner = viewLifecycleOwner
         }
-        lifecycleScope.launchWhenStarted {
-            coinsViewModel.navigateToCoinDetail.collectLatest {
-                Toast.makeText(requireContext(), "ID $it", Toast.LENGTH_SHORT).show()
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            coinsViewModel.navigateToCoinDetail.collect {
+                val action = CoinsFragmentDirections.actionCoinsFragmentToCoinDetailFragment(it)
+                findNavController().navigate(action)
             }
         }
         return binding.root
