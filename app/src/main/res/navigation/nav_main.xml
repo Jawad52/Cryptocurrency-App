@@ -9,5 +9,19 @@
         android:id="@+id/coinsFragment"
         android:name="com.jawad.cryptocurrencyapp.presentation.coins.CoinsFragment"
         android:label="fragment_coins"
-        tools:layout="@layout/fragment_coins" />
+        tools:layout="@layout/fragment_coins">
+        <action
+            android:id="@+id/action_coinsFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coinDetailFragment"
+        android:name="com.jawad.cryptocurrencyapp.presentation.coin_details.CoinDetailFragment"
+        android:label="fragment_coin_detail"
+        tools:layout="@layout/fragment_coin_detail">
+        <argument
+            android:name="coin_id"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 </navigation>
