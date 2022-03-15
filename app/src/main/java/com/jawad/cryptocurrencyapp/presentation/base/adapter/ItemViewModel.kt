@@ -1,4 +1,4 @@
-package com.jawad.cryptocurrencyapp.presentation.coins.adapter
+package com.jawad.cryptocurrencyapp.presentation.base.adapter
 
 import androidx.annotation.LayoutRes
 

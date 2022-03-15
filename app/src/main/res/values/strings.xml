@@ -6,5 +6,6 @@
     <string name="in_active">in-active</string>
     <string name="title">%s. %s (%s) </string>
     <string name="tags">Tags</string>
+    <string name="team_member">Team Member</string>
 
 </resources>

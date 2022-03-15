@@ -6,7 +6,7 @@ import com.jawad.cryptocurrencyapp.domain.use_case.CoinsUseCase
 import com.jawad.cryptocurrencyapp.domain.util.Resource
 import com.jawad.cryptocurrencyapp.presentation.base.BaseViewModel
 import com.jawad.cryptocurrencyapp.presentation.coins.adapter.CoinListingViewModel
-import com.jawad.cryptocurrencyapp.presentation.coins.adapter.ItemViewModel
+import com.jawad.cryptocurrencyapp.presentation.base.adapter.ItemViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

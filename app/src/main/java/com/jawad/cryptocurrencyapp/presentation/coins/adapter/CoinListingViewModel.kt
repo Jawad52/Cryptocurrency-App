@@ -1,6 +1,7 @@
 package com.jawad.cryptocurrencyapp.presentation.coins.adapter
 
 import com.jawad.cryptocurrencyapp.R
+import com.jawad.cryptocurrencyapp.presentation.base.adapter.ItemViewModel
 import com.jawad.cryptocurrencyapp.presentation.coins.view_model.CoinsViewModel
 
 class CoinListingViewModel(

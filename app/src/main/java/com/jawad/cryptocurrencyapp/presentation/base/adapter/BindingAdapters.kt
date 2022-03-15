@@ -1,4 +1,4 @@
-package com.jawad.cryptocurrencyapp.presentation.coins.adapter
+package com.jawad.cryptocurrencyapp.presentation.base.adapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
