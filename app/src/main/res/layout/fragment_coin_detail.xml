@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.coins.CoinsFragment">
 
     <data>
 
@@ -12,103 +13,110 @@
             type="com.jawad.cryptocurrencyapp.presentation.coin_details.CoinDetailViewModel" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.coins.CoinsFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="10dp"
-            android:visibility="@{coinDetailsViewModelData.getProgressStatus? View.GONE : View.VISIBLE}"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvCoinTitle"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{@string/title(coinDetailsViewModelData.getCoinDetail.component5(), coinDetailsViewModelData.getCoinDetail.component2(), coinDetailsViewModelData.getCoinDetail.component4())}"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="10dp"
+                android:visibility="@{coinDetailsViewModelData.getProgressStatus? View.GONE : View.VISIBLE}">
 
-            <TextView
-                android:id="@+id/tvIsCoinActive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{coinDetailsViewModelData.getCoinDetail.component6()? @string/active : @string/in_active}"
-                android:textColor="@{coinDetailsViewModelData.getCoinDetail.component6()? @color/green : @color/red}"
-                android:textSize="14sp"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvCoinTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/title(coinDetailsViewModelData.getCoinDetail.component5(), coinDetailsViewModelData.getCoinDetail.component2(), coinDetailsViewModelData.getCoinDetail.component4())}"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvCoinDes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@{coinDetailsViewModelData.getCoinDetail.component3()}"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCoinTitle" />
+                <TextView
+                    android:id="@+id/tvIsCoinActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{coinDetailsViewModelData.getCoinDetail.component6()? @string/active : @string/in_active}"
+                    android:textColor="@{coinDetailsViewModelData.getCoinDetail.component6()? @color/green : @color/red}"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTagTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/tags"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCoinDes" />
+                <TextView
+                    android:id="@+id/tvCoinDes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@{coinDetailsViewModelData.getCoinDetail.component3()}"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCoinTitle" />
 
-            <TextView
-                android:id="@+id/tvTags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@{coinDetailsViewModelData.getCoinDetail.component7()}"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTagTitle" />
+                <TextView
+                    android:id="@+id/tvTagTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/tags"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCoinDes" />
 
-            <TextView
-                android:id="@+id/tvTeamMember"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/tags"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTags" />
+                <TextView
+                    android:id="@+id/tvTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="start"
+                    android:text="@{coinDetailsViewModelData.getCoinDetail.component7()}"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTagTitle" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTeamMember"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="6dp"
-                app:itemViewModels="@{coinDetailsViewModelData.getTeams}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTeamMember" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvTeamMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team_member"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTags" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTeamMember"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:itemViewModels="@{coinDetailsViewModelData.getTeams}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTeamMember" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
             android:layout_width="60dp"

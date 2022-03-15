@@ -3,16 +3,21 @@ package com.jawad.cryptocurrencyapp.presentation.coin_details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.jawad.cryptocurrencyapp.data.remote.dto.Team
+import com.jawad.cryptocurrencyapp.domain.model.Coin
 import com.jawad.cryptocurrencyapp.domain.model.CoinDetail
 import com.jawad.cryptocurrencyapp.domain.use_case.CoinDetailUseCase
 import com.jawad.cryptocurrencyapp.domain.util.Resource
 import com.jawad.cryptocurrencyapp.presentation.base.BaseViewModel
+import com.jawad.cryptocurrencyapp.presentation.base.adapter.ItemViewModel
+import com.jawad.cryptocurrencyapp.presentation.coin_details.adapter.TeamMemberViewModel
+import com.jawad.cryptocurrencyapp.presentation.coins.adapter.CoinListingViewModel
 import com.jawad.cryptocurrencyapp.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +35,7 @@ class CoinDetailViewModel @Inject constructor(
     private var _coinDetail = MutableStateFlow<CoinDetail?>(null)
     val getCoinDetail = _coinDetail.asStateFlow()
 
-    private var _teams = MutableStateFlow<List<Team>?>(null)
+    private var _teams = MutableStateFlow<List<ItemViewModel>?>(null)
     val getTeams = _teams.asStateFlow()
 
     init {
@@ -51,10 +56,19 @@ class CoinDetailViewModel @Inject constructor(
                     _progressStatus.emit(false)
                     it.data?.let { coinDetail ->
                         _coinDetail.emit(coinDetail)
-                        _teams.emit(coinDetail.team)
+                        _teams.emit(createItemView(coinDetail.team))
                     }
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun createItemView(teams: List<Team>): List<ItemViewModel> {
+        val itemViewModel = arrayListOf<ItemViewModel>()
+        teams.forEach { team ->
+            val teamViewHolder = TeamMemberViewModel(team)
+            itemViewModel.add(teamViewHolder)
+        }
+        return itemViewModel
     }
 }
