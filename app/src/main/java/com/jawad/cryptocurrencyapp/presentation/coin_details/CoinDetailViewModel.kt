@@ -29,6 +29,9 @@ class CoinDetailViewModel @Inject constructor(
     private var _progressStatus = MutableStateFlow(false)
     val getProgressStatus = _progressStatus.asStateFlow()
 
+    private var _uIStatus = MutableStateFlow(false)
+    val getUIStatus = _uIStatus.asStateFlow()
+
     private var _message = MutableStateFlow("")
     val getMessage = _message.asStateFlow()
 
@@ -48,12 +51,16 @@ class CoinDetailViewModel @Inject constructor(
             when (it) {
                 is Resource.Error -> {
                     _progressStatus.emit(false)
+                    _uIStatus.emit(false)
                     _message.emit(it.message ?: "An error occurred please try again later.")
                 }
-                is Resource.Loading ->
+                is Resource.Loading -> {
+                    _uIStatus.emit(false)
                     _progressStatus.emit(true)
+                }
                 is Resource.Success -> {
                     _progressStatus.emit(false)
+                    _uIStatus.emit(true)
                     it.data?.let { coinDetail ->
                         _coinDetail.emit(coinDetail)
                         _teams.emit(createItemView(coinDetail.team))
